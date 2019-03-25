@@ -1,0 +1,3 @@
+[submodule "lib/react-uwp"]
+	path = lib/react-uwp
+	url = git@github.com:erichiller/react-uwp
