@@ -31,3 +31,21 @@
     transform: rotate(360deg);
   }
 }
+
+.react-icons {
+  vertical-align: middle;
+  font-size: 130%;
+  margin: 0 5px 0 0;
+  /* animation: App-logo-spin infinite 20s linear;
+  color: red; */
+}
+
+/* .HeaderIcon {
+  background-image: url(/img/hiller-pro-icon-set/ms-icon-70x70.png);
+  height: 50px;
+  width:150px;
+} */
+
+.HeaderRow {
+  vertical-align: "bottom";
+}
