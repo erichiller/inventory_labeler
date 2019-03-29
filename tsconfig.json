@@ -21,5 +21,10 @@
   },
   "include": [
     "src"
+  ],
+  "files": [
+    "./node_modules/react-uwp/index.d.ts",
+    "./src/typings/react-bootstrap-table2-editor.d.ts",
+    "./src/typings/react-bootstrap-table-next.d.ts"
   ]
 }

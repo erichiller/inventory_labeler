@@ -9,12 +9,13 @@
     "@types/react-dom": "16.8.3",
     "@uifabric/fluent-theme": "^0.16.2",
     "office-ui-fabric-core": "^9.6.1",
-    "office-ui-fabric-react": "^6.159.1",
     "react": "^16.8.5",
-    "react-data-grid": "^6.1.0-0",
+    "react-bootstrap-table-next": "^3.0.3",
+    "react-bootstrap-table2-editor": "^1.2.2",
     "react-dom": "^16.8.5",
-    "react-icons": "^3.5.0",
+    "react-resizable": "^1.7.5",
     "react-scripts": "2.1.8",
+    "react-uwp": "^1.2.31",
     "typescript": "3.3.4000"
   },
   "scripts": {
@@ -31,5 +32,10 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.17",
+    "@fortawesome/free-solid-svg-icons": "^5.8.1",
+    "@fortawesome/react-fontawesome": "^0.1.4"
+  }
 }

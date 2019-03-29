@@ -1,0 +1,27 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {},
+    "rules": {
+        "semicolon": [true, "always"],
+        "typedef-whitespace": [
+                true, {
+                    "call-signature": "nospace",
+                    "index-signature": "nospace",
+                    "parameter": "nospace",
+                    "property-declaration": "nospace",
+                    "variable-declaration": "nospace"
+                },
+                {
+                  "call-signature": "onespace",
+                  "index-signature": "onespace",
+                  "parameter": "onespace",
+                  "property-declaration": "space",
+                  "variable-declaration": "space"
+                }
+            ]
+    },
+    "rulesDirectory": []
+}

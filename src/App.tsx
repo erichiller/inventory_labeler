@@ -1,90 +1,89 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import LightTheme from "react-uwp/styles/lightTheme";
+import { Tab } from "react-uwp/Tabs";
+import TabsIconable, { ITabTitle } from "./components/Tabs";
 
-import { DefaultButton } from "office-ui-fabric-react/lib/Button";
-import { ItemsTable } from "./components/ItemsTable";
-import { GlobalSearch } from "./components/GlobalSearch";
-
-import {
-  Customizer,
-  Pivot,
-  PivotItem,
-  PivotLinkFormat,
-  PivotLinkSize
-} from "office-ui-fabric-react";
-import { FluentCustomizations } from "@uifabric/fluent-theme";
-import { initializeIcons } from "office-ui-fabric-react/lib/Icons";
-import { Icon } from "office-ui-fabric-react/lib/Icon";
-import { EditPanel } from "./components/EditPanel";
 import "office-ui-fabric-core/dist/css/fabric.css";
 import "./App.css";
+
+import { faMicrochip } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+// import { DefaultButton } from "office-ui-fabric-react/lib/Button";
+// import { ItemsTable } from "./components/ItemsTable";
+// import { GlobalSearch } from "./components/GlobalSearch";
+import ItemsTable from "./components/ItemsTable";
+import Split from "./components/Split";
+
+import { getTheme, Theme as UWPThemeProvider } from "react-uwp/Theme";
+// import {
+//   Customizer,
+//   Pivot,
+//   PivotItem,
+//   PivotLinkFormat,
+//   PivotLinkSize
+// } from "office-ui-fabric-react";
+// import { FluentCustomizations } from "@uifabric/fluent-theme";
+// import { initializeIcons } from "office-ui-fabric-react/lib/Icons";
+// import { Icon } from "office-ui-fabric-react/lib/Icon";
+// import { EditPanel } from "./components/EditPanel";
 // import logo from ''; // Tell Webpack this JS file uses this image
 
-initializeIcons();
+// initializeIcons();
 
 class App extends React.Component {
-
-    
-  public state = {
-      selectedKey: 'item_table' ,
-      selectedItem: PivotItem
-  };
-
-  private _handleLinkClick = (item?: PivotItem): void => {
-
-    this.setState({
-      selectedKey: item!.props.itemKey,
-      selectedItem: item!
-    });
-  };
-
-  private _getTabId = (itemKey: string): string => {
-    return `ShapeColorPivot_${itemKey}`;
-  };
   public render() {
-    return (
-      <Customizer {...FluentCustomizations}>
-        <div className="App">
-          <div className="ms-Grid HeaderRow" dir="ltr">
-            <div className="ms-Grid-row">
-              <div className="ms-Grid-col ms-sm1"> </div>
-              <div className="ms-Grid-col ms-sm1">
-                <img src="/img/hiller-pro-icon-set/ms-icon-70x70.png" alt="Logo" />
-              </div>
-              <div className="ms-Grid-col ms-sm6">
-                {/* <Pivot
-                  linkSize={PivotLinkSize.large}
+    
+const baseStyle: React.CSSProperties = {
+  display: "block",
+  margin: "10px 0",
+  height: 400
+};
+const tabStyle: React.CSSProperties = {
+  background: LightTheme.acrylicTexture60!.background!,
+};
 
-                  // linkFormat={PivotLinkFormat.tabs}
-                > */}
-                <Pivot selectedKey={this.state.selectedKey} linkSize={PivotLinkSize.large} onLinkClick={this._handleLinkClick} headersOnly={true} getTabId={this._getTabId}>
+return (
+      <UWPThemeProvider
+        theme={getTheme({
+          accent: "#0078D7", // set accent color
+          desktopBackgroundImage: "img/jonathan-singer-724077-unsplash.jpg", // set global desktop background image
+          themeName: "light", // set custom theme
+          useFluentDesign: true, // sure you want use new fluent design.
+        })}
+      >
+<FontAwesomeIcon icon={faMicrochip} />
+      <TabsIconable
+          tabStyle={tabStyle}
+          style={baseStyle}
+          tabTitleStyle={{ marginRight: 40 }}
+          renderTitle={(tabTitle: ITabTitle) => (
+            <span>
+              { tabTitle.icon }
+              <span style={{ marginLeft: 12 }}>{tabTitle.text}</span>
+            </span>
+          )}
+        >
+          <Tab title="People">
+            People
+          </Tab>
 
-                  <PivotItem
-                    headerText="Items Table"
-                    itemIcon="Table"
-                    itemKey="item_table"
-                    // itemCount=""
-                  >
-                    <ItemsTable />
-                  </PivotItem>
-                    
-                  <PivotItem headerText="Orders Table" itemIcon="Table" itemKey="order_table">
-                    <DefaultButton>I am a button.</DefaultButton>
-                  </PivotItem>
-                </Pivot>
-              </div>
-              <div className="ms-Grid-col ms-sm4">
-                <GlobalSearch />
-              </div>
-            </div>
-            
-  <div className="ms-Grid-row">
-    <div className="ms-Grid-col ms-sm12">{this.state.selectedItem}</div>
-  </div>
-          </div>
-        </div>
-          <EditPanel />
-      </Customizer>
+          <Tab title="NUIFace">
+            NUIFace
+          </Tab>
+
+          <Tab title="Game">
+            Game
+          </Tab>
+
+          <Tab title="Color">
+            Color
+          </Tab>
+        </TabsIconable>
+        <Split />
+        <ItemsTable />
+      </UWPThemeProvider>
     );
   }
 }
