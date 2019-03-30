@@ -1,0 +1,14 @@
+[
+    {
+        "itemId": 1,
+        "name": "String Cheese",
+        "class": "SCREW",
+        "manufacturerPartNumber": "xxxStringCheesexxx"
+    },
+    {
+        "itemId": 2,
+        "name": "Pizza",
+        "class": "ELECTRONICS",
+        "manufacturerPartNumber": "xxxPizzaxxx"
+    }
+]

@@ -15,6 +15,7 @@ import * as PropTypes from "prop-types";
 import SplitView, { SplitViewPane } from "react-uwp/SplitView";
 import Toggle from "react-uwp/Toggle";
 import DropDownMenu from "react-uwp/DropDownMenu";
+import { theme } from "../App";
 
 export interface SimpleExampleState {
   expanded?: boolean;
@@ -42,7 +43,8 @@ export default class Split extends React.Component<{}, SimpleExampleState> {
         }}
         style={{
           width: "100%",
-        //   margin: "20px auto",
+          margin: "20px auto",
+          background: theme.acrylicTexture40!.background!,
           height: 640
         }}
       >

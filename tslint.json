@@ -5,23 +5,30 @@
     ],
     "jsRules": {},
     "rules": {
-        "semicolon": [true, "always"],
+        "semicolon": [
+            true,
+            "always"
+        ],
         "typedef-whitespace": [
-                true, {
-                    "call-signature": "nospace",
-                    "index-signature": "nospace",
-                    "parameter": "nospace",
-                    "property-declaration": "nospace",
-                    "variable-declaration": "nospace"
-                },
-                {
-                  "call-signature": "onespace",
-                  "index-signature": "onespace",
-                  "parameter": "onespace",
-                  "property-declaration": "space",
-                  "variable-declaration": "space"
-                }
-            ]
+            true,
+            {
+                "call-signature": "nospace",
+                "index-signature": "nospace",
+                "parameter": "nospace",
+                "property-declaration": "nospace",
+                "variable-declaration": "nospace"
+            },
+            {
+                "call-signature": "onespace",
+                "index-signature": "onespace",
+                "parameter": "onespace",
+                "property-declaration": "space",
+                "variable-declaration": "space"
+            }
+        ],
+        "max-classes-per-file": [ false, 2 ],
+        "member-ordering": [ false ],
+        "no-console": [ false ]
     },
     "rulesDirectory": []
 }

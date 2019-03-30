@@ -32,10 +32,7 @@
   }
 }
 
-.react-icons {
-  vertical-align: middle;
-  font-size: 130%;
-  margin: 0 5px 0 0;
-  /* animation: App-logo-spin infinite 20s linear;
-  color: red; */
+#HillerIcon {
+  float: left;
+  margin: 0 10px 0 10px;
 }
