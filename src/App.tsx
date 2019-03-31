@@ -4,7 +4,7 @@ import { ThemeType } from "react-uwp";
 import LightTheme from "react-uwp/styles/lightTheme";
 import HillerIcon from "./assets/hiller_logo_2.svg";
 import GlobalSearch from "./components/GlobalSearch";
-import TabsIconable, { Tab } from "./components/Tabs";
+import { Tab, TabView, TabGroup, TabBar } from "./components/Tabs";
 
 import "office-ui-fabric-core/dist/css/fabric.css";
 import "./App.css";
@@ -19,20 +19,6 @@ import ItemsTable from "./components/ItemsTable";
 import Split from "./components/Split";
 
 import Theme, { getTheme, Theme as UWPThemeProvider } from "react-uwp/Theme";
-// import {
-//   Customizer,
-//   Pivot,
-//   PivotItem,
-//   PivotLinkFormat,
-//   PivotLinkSize
-// } from "office-ui-fabric-react";
-// import { FluentCustomizations } from "@uifabric/fluent-theme";
-// import { initializeIcons } from "office-ui-fabric-react/lib/Icons";
-// import { Icon } from "office-ui-fabric-react/lib/Icon";
-// import { EditPanel } from "./components/EditPanel";
-// import logo from ''; // Tell Webpack this JS file uses this image
-
-// initializeIcons();
 
 const theme: ThemeType = getTheme({
   accent: "#0078D7",      // set accent color
@@ -44,55 +30,59 @@ const theme: ThemeType = getTheme({
 class App extends React.Component {
   public render() {
 
-const baseStyle: React.CSSProperties = {
-  display: "block",
-  margin: "10px 0",
-  height: 400,
-};
-const tabStyle: React.CSSProperties = {
-  background: LightTheme.acrylicTexture40!.background!,
-};
+    const topBarStyle: React.CSSProperties = {
+      // display: "block",
+      margin: "10px 0",
+      height: "40px",
+      verticalAlign: "bottom",
+    display: "table-cell",
+      // height: 400,
+    };
+    const tabStyle: React.CSSProperties = {
+      background: LightTheme.acrylicTexture40!.background!,
+    };
 
-return (
+    return (
       <UWPThemeProvider
         theme={theme}
       >
+        <TabGroup>
+      <div style={topBarStyle}>
+          <img id="HillerIcon" src={HillerIcon} style={{verticalAlign: "bottom", marginTop: "5px"}} alt="Logo" />
+          <TabBar
+            tabStyle={tabStyle}
+            // style={baseStyle}
+            tabTitleStyle={{ marginRight: 15 }} />
+          <GlobalSearch />
+        </div>
 
-      <TabsIconable
-          tabStyle={tabStyle}
-          style={baseStyle}
-          tabTitleStyle={{ marginRight: 15 }}
-          logo={<img id="HillerIcon" src={HillerIcon} alt="Logo" />}
-          search={GlobalSearch}
-          renderTitle={(title: string, icon?: React.ReactElement) => (
-            <span>
-              { icon }
-              <span style={{ marginLeft: 12 }}>{title}</span>
-            </span>
-          )}
-        >
-          <Tab title="Items" icon={ <FontAwesomeIcon icon={faBox} /> }>
-            <Split />
+
+          <TabView/>
+          <Tab title="Items" style={{margin: "5px"}} icon={<FontAwesomeIcon icon={faBox} />}>
+              <Split />
           </Tab>
-
-          <Tab title="Orders" icon={ <FontAwesomeIcon icon={faCubes} /> }>
+          <Tab title="Orders" icon={<FontAwesomeIcon icon={faCubes} />}>
             NUIFace
+            <ItemsTable />
           </Tab>
-
-          <Tab title="Labels" icon={ <FontAwesomeIcon icon={faTags} /> }>
+          <Tab title="Labels" icon={<FontAwesomeIcon icon={faTags} />}>
             Game
           </Tab>
 
-          <Tab title="Stats" icon={ <FontAwesomeIcon icon={faChartPie} /> }>
+          <Tab title="Stats" icon={<FontAwesomeIcon icon={faChartPie} />}>
             Color
           </Tab>
-        </TabsIconable>
-        <ItemsTable />
+          
+        </TabGroup>
         {/* <GlobalSearch /> */}
       </UWPThemeProvider>
     );
   }
 }
 
+
+
 export default App;
 export { theme };
+
+
