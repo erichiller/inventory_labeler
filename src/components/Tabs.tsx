@@ -51,9 +51,6 @@ export class TabGroup extends React.Component {
                 this.state.nonTabs = React.Children.toArray(this.props.children).filter(child => !( 'title' in (child as React.Component).props) );
             })
         } else { console.log("no child found") }
-        console.log("active tab")
-        console.log(this.state.activeTab)
-        console.log("end active tab")
         return (
             <React.Fragment>
                 <TabsContext.Provider
@@ -200,10 +197,10 @@ export class TabBar extends React.Component<ITabsProps, {}> {
             className: "tabContent",
             styles: inlineStyles
         });
-        console.log("styles:")
-        console.log(styles!.root!.style)
-        console.log("inlineStyles:")
-        console.log(inlineStyles)
+        // console.log("styles:")
+        // console.log(styles!.root!.style)
+        // console.log("inlineStyles:")
+        // console.log(inlineStyles)
         return (
 
             <div

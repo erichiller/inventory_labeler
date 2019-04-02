@@ -12,10 +12,16 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import SplitView, { SplitViewPane } from "react-uwp/SplitView";
+// import SplitView, {SplitViewPane} from "react-uwp/SplitView";
+import SplitView from "./uwp/SplitView";
+import SplitViewPane from "./uwp/SplitViewPane";
 import Toggle from "react-uwp/Toggle";
 import DropDownMenu from "react-uwp/DropDownMenu";
 import { theme } from "../App";
+
+
+
+import { Resizable, ResizableBox } from 'react-resizable';
 
 export interface SimpleExampleState {
   expanded?: boolean;
@@ -45,7 +51,11 @@ export default class Split extends React.Component<{}, SimpleExampleState> {
           width: "100%",
           margin: "20px auto",
           background: theme.acrylicTexture40!.background!,
-          height: 640
+          // height: 640
+        }}
+        paneStyle={{
+          padding: "20px",
+          margin: 0
         }}
       >
         <div>
@@ -56,13 +66,22 @@ export default class Split extends React.Component<{}, SimpleExampleState> {
             style={{ margin: 20 }}
             onToggle={nextExpanded => {
               this.setState({ expanded: nextExpanded });
+              // this.set
             }}
           />
         </div>
-
+        {/* <ResizableBox 
+          width={200}
+          height={200}
+          // draggableOpts={{...}}
+          minConstraints={[100, 100]}
+          maxConstraints={[300, 300]}> */}
+        
         <SplitViewPane>
           SplitViewPane
         </SplitViewPane>
+      {/* <span>Contents</span> */}
+    {/* </ResizableBox> */}
       </SplitView>
     );
   }
