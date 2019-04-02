@@ -55,7 +55,7 @@ export default class Split extends React.Component<{}, SimpleExampleState> {
         }}
         paneStyle={{
           padding: "20px",
-          margin: 0
+          margin: 0,
         }}
       >
         <div>
@@ -76,12 +76,12 @@ export default class Split extends React.Component<{}, SimpleExampleState> {
           // draggableOpts={{...}}
           minConstraints={[100, 100]}
           maxConstraints={[300, 300]}> */}
-        
+
         <SplitViewPane>
           SplitViewPane
         </SplitViewPane>
-      {/* <span>Contents</span> */}
-    {/* </ResizableBox> */}
+        {/* <span>Contents</span> */}
+        {/* </ResizableBox> */}
       </SplitView>
     );
   }

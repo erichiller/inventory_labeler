@@ -2,10 +2,12 @@ import debounce from 'lodash.debounce';
 import PropTypes, { number, string } from 'prop-types';
 import React, { Component, CSSProperties } from 'react';
 
+import { CustomCSSProperties } from "react-uwp";
 
 
 
 /*** START autoprefix.js ***/
+// Originally from https://github.com/alexkuz/react-dock/
 // Same as https://github.com/SimenB/react-vendor-prefixes/blob/master/src/index.js,
 // but dumber
 
@@ -347,7 +349,7 @@ function getFullSize(position: DockStyleLocation, fullWidth: number, fullHeight:
         fullHeight;
 }
 
-interface IDockProps {
+interface IDockProps extends React.HTMLAttributes<HTMLDivElement> {
     position: DockStyleLocation;
     zIndex: number;
     fluid: boolean;
@@ -360,7 +362,7 @@ interface IDockProps {
     dimStyle?: CSSProperties;
     dockStyle?: CSSProperties;
     dockHiddenStyle?: CSSProperties;
-    duration: number
+    duration: number;
 }
 interface IDockState {
     isControlled: boolean;
@@ -373,7 +375,12 @@ interface IDockState {
     isResizing: boolean;
 }
 
-export default class Dock extends Component<IDockProps, IDockState> {
+export default class SplitViewPane extends Component<IDockProps, IDockState> {
+
+    public static contextTypes = { theme: PropTypes.object };
+    public context!: { theme: ReactUWP.ThemeType };
+    public rootElm!: HTMLDivElement;
+
     constructor(props: IDockProps) {
         super(props);
         this.state = {
@@ -388,21 +395,6 @@ export default class Dock extends Component<IDockProps, IDockState> {
         };
     }
 
-    // public static propTypes = {
-    //     position: PropTypes.oneOf(["left", "right", "top", "bottom"]),
-    //     zIndex: PropTypes.number,
-    //     fluid: PropTypes.bool,
-    //     size: PropTypes.number,
-    //     defaultSize: PropTypes.number,
-    //     dimMode: PropTypes.oneOf(["none", "transparent", "opaque"]),
-    //     isVisible: PropTypes.bool,
-    //     onVisibleChange: PropTypes.func,
-    //     onSizeChange: PropTypes.func,
-    //     dimStyle: PropTypes.object,
-    //     dockStyle: PropTypes.object,
-    //     duration: PropTypes.number,
-    // };
-
     public static defaultProps = {
         position: "left",
         zIndex: 99999999,
@@ -410,6 +402,7 @@ export default class Dock extends Component<IDockProps, IDockState> {
         defaultSize: 0.3,
         dimMode: "opaque",
         duration: 200,
+        isVisible: true,
     };
 
     public componentDidMount() {
@@ -478,15 +471,20 @@ export default class Dock extends Component<IDockProps, IDockState> {
     }
 
     public render() {
-        const { children, zIndex, dimMode, position, isVisible } = this.props;
+        const { children, zIndex, dimMode, position, isVisible, ...attributes } = this.props;
         const { isResizing, size, isDimHidden } = this.state;
+
+        console.log(attributes);
 
         const dimStyles = Object.assign({}, ...getDimStyles(this.props, this.state));
         const dockStyles = Object.assign({}, ...getDockStyles(this.props, this.state));
         const resizerStyles = Object.assign({}, ...getResizerStyles(position));
 
         return (
-            <div style={Object.assign({}, styles.wrapper, { zIndex })}>
+            <div style={Object.assign({}, styles.wrapper, { zIndex })} 
+              {...attributes}
+              ref={(rootElm) => this.rootElm = rootElm!}
+            >
                 {dimMode !== "none" && !isDimHidden &&
                     <div style={dimStyles} onClick={this.handleDimClick} />
                 }

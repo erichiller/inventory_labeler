@@ -45,12 +45,12 @@ export class TabGroup extends React.Component {
 
     render() {
         if (isArray(this.props.children)) {
-            console.log("# of children"); console.log(this.props.children.length);
+            // console.log("# of children"); // console.log(this.props.children.length);
             this.props.children.map((child) => {
                 this.state.tabs = React.Children.toArray(this.props.children).filter(child => 'title' in (child as React.Component).props);
                 this.state.nonTabs = React.Children.toArray(this.props.children).filter(child => !( 'title' in (child as React.Component).props) );
             })
-        } else { console.log("no child found") }
+        } //else { /** console.log("no child found") **/ }
         return (
             <React.Fragment>
                 <TabsContext.Provider
@@ -197,10 +197,10 @@ export class TabBar extends React.Component<ITabsProps, {}> {
             className: "tabContent",
             styles: inlineStyles
         });
-        // console.log("styles:")
-        // console.log(styles!.root!.style)
-        // console.log("inlineStyles:")
-        // console.log(inlineStyles)
+        // // console.log("styles:")
+        // // console.log(styles!.root!.style)
+        // // console.log("inlineStyles:")
+        // // console.log(inlineStyles)
         return (
 
             <div
@@ -212,16 +212,16 @@ export class TabBar extends React.Component<ITabsProps, {}> {
                 <TabsContext.Consumer>
                     {
                         ({ activeTab, actions, tabs }) => {
-                            console.log("tabs =>")
-                            console.log(tabs);
-                            console.log("close tabs")
+                            // console.log("tabs =>")
+                            // console.log(tabs);
+                            // console.log("close tabs")
                             // if (! tabs.isArray()){
                             //     return ""
                             // }
                             return (
                                 (tabs && (tabs as Array<Tab>).map((tab, index) => {
-                                    { console.log(tab) }
-                                    { console.log("this " + tab.props.title + "is Active?" + (index === activeTab)) }
+                                    //{ console.log(tab) }
+                                    //{ console.log("this " + tab.props.title + "is Active?" + (index === activeTab)) }
                                     return (<span
                                         {...(index === activeTab ? styles.titleFocus : styles.title)}
                                         key={`${index}`}
@@ -292,9 +292,9 @@ export class TabView extends React.Component<ITabsProps, {}> {
               {tab}
             </div>
           );
-        console.log("--->Theme in TabView--->");
-        console.log(theme);
-        console.log("<---Theme in TabView<---");
+        // console.log("--->Theme in TabView--->");
+        // console.log(theme);
+        // console.log("<---Theme in TabView<---");
 
         const prefixStyle = (theme.prefixStyle !== undefined ? theme.prefixStyle : (style: CustomCSSProperties) => ({}));
         const styleSafe = (style !== undefined ? style : {});
@@ -323,10 +323,10 @@ export class TabView extends React.Component<ITabsProps, {}> {
                     //         ...prefixStyle(styleSafe)
                     //     }}
                     // >
-                    //     {console.log("--->tabs--->")}
-                    //     {console.log(activeTab)}
-                    //     {console.log("<---tabs<---")}
-                    //     {/* {console.log(children)} */}
+                    //     {// console.log("--->tabs--->")}
+                    //     {// console.log(activeTab)}
+                    //     {// console.log("<---tabs<---")}
+                    //     {/* {// console.log(children)} */}
                     //     xxx
                     //     {( tabs as Array<Tab>)[activeTab]}
                     //     xxx

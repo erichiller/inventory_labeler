@@ -1,9 +1,10 @@
-import * as React from "react";
-import * as PropTypes from "prop-types";
 import { codes } from "keycode";
+import * as PropTypes from "prop-types";
+import * as React from "react";
 
 import AddBlurEvent from "react-uwp/common/AddBlurEvent";
-import SplitViewPane, { SplitViewPaneProps } from "./SplitViewPane";
+// import SplitViewPane, { SplitViewPaneProps } from "./SplitViewPane";
+import SplitViewPane from "./UwpDock";
 export { SplitViewPane };
 
 export interface DataProps {
@@ -23,64 +24,64 @@ export interface SplitViewState {
 
 const emptyFunc = () => { };
 export class SplitView extends React.Component<SplitViewProps, SplitViewState> {
-    static defaultProps: SplitViewProps = {
+    public static defaultProps: SplitViewProps = {
         expandedWidth: 320,
         displayMode: "compact",
         panePosition: "right",
-        onClosePane: emptyFunc
+        onClosePane: emptyFunc,
     };
-    state: SplitViewState = {
-        expanded: this.props.defaultExpanded
+    public state: SplitViewState = {
+        expanded: this.props.defaultExpanded,
     };
 
-    addBlurEvent = new AddBlurEvent();
-    rootElm!: HTMLDivElement;
+    public addBlurEvent = new AddBlurEvent();
+    public rootElm!: HTMLDivElement;
 
-    componentWillReceiveProps(nextProps: SplitViewProps) {
+    public componentWillReceiveProps(nextProps: SplitViewProps) {
         const { defaultExpanded } = nextProps;
         if (defaultExpanded !== void 0 && defaultExpanded !== this.state.expanded) {
             this.setState({
-                expanded: defaultExpanded
+                expanded: defaultExpanded,
             });
         }
     }
 
-    addBlurEventMethod = () => {
+    public addBlurEventMethod = () => {
         const { clickExcludeElms } = this.props;
         this.addBlurEvent.setConfig({
             addListener: this.state.expanded!,
             clickExcludeElm: clickExcludeElms ? [...clickExcludeElms, this.rootElm] : this.rootElm,
             blurCallback: () => {
                 this.setState({
-                    expanded: false
+                    expanded: false,
                 }, this.props.onClosePane);
             },
-            blurKeyCodes: [codes.esc]
+            blurKeyCodes: [codes.esc],
         });
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         this.addBlurEventMethod();
     }
 
-    componentDidUpdate() {
+    public componentDidUpdate() {
         this.addBlurEventMethod();
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount() {
         this.addBlurEvent.cleanEvent();
     }
 
-    static contextTypes = { theme: PropTypes.object };
-    context!: { theme: ReactUWP.ThemeType };
+    public static contextTypes = { theme: PropTypes.object };
+    public context!: { theme: ReactUWP.ThemeType };
 
 
-    isSplitViewPane(input: SplitViewPane | any): input is SplitViewPane {
+    public isSplitViewPane(input: SplitViewPane | any): input is SplitViewPane {
         return (input as SplitViewPane).props.isVisible !== undefined;
     }
 
 
-    render() {
+    public render() {
         const {
             displayMode,
             expandedWidth,
@@ -100,25 +101,19 @@ export class SplitView extends React.Component<SplitViewProps, SplitViewState> {
         const inlineStyles = getStyles(this);
         const styles = theme.prepareStyles({
             className: "split-view",
-            styles: inlineStyles
+            styles: inlineStyles,
         });
-        console.log("rendered SplitView")
 
         if (children) {
             React.Children.forEach(children, (child: any, index) => {
                 if (this.isSplitViewPane(child)) {
-                    console.log("isSplitViewPane");
-                    // child.setState({isVisibleState: true});
-                } else {
-                    console.log(" NOT !!! isSplitView ")
-                }
-                if (child.type === SplitViewPane) {
                     console.log(child);
-                    splitViewPanes.push(React.cloneElement(child, {
+                    console.log(" ... isSplitView ");
+                    splitViewPanes.push(React.cloneElement( (child as any ), {
                         style: { ...styles.pane!.style, ...child.props.style },
                         className: styles.pane!.className,
                         key: index.toString(),
-                        isVisible: this.state.expanded
+                        isVisible: this.state.expanded,
                     }));
                 } else {
                     childView.push(child);
@@ -151,11 +146,11 @@ function getStyles(splitView: SplitView): {
             expandedWidth,
             displayMode,
             panePosition,
-            paneStyle
+            paneStyle,
         },
         state: {
-            expanded
-        }
+            expanded,
+        },
     } = splitView;
     const { theme } = context;
     const { prefixStyle } = theme;
@@ -180,13 +175,13 @@ function getStyles(splitView: SplitView): {
                 alignItems: "flex-start",
                 justifyContent: "space-between",
                 width: "auto",
-                height: "auto"
+                height: "auto",
             } as React.CSSProperties : void 0),
             ...(isOverlay ? {
-                width: "100%"
+                width: "100%",
             } as React.CSSProperties : void 0),
             ...style,
-            overflow: "hidden"
+            overflow: "hidden",
         }),
         pane: prefixStyle!({
             background: theme.useFluentDesign ? theme.acrylicTexture40!.background : theme.altHigh,
@@ -195,7 +190,7 @@ function getStyles(splitView: SplitView): {
             ...(isCompact ? {
                 height: "100%",
                 width: expandedWidth,
-                transform: `translate3d(${expanded ? 0 : expandedWidth}px, 0, 0)`
+                transform: `translate3d(${expanded ? 0 : expandedWidth}px, 0, 0)`,
             } as React.CSSProperties : void 0),
             ...(isOverlay ? {
                 position: "absolute",
@@ -204,10 +199,10 @@ function getStyles(splitView: SplitView): {
                 left: panePositionIsRight ? void 0 : 0,
                 height: "100%",
                 width: expandedWidth,
-                transform: `translate3d(${expanded ? 0 : expandedWidth}px, 0, 0)`
+                transform: `translate3d(${expanded ? 0 : expandedWidth}px, 0, 0)`,
             } as React.CSSProperties : void 0),
-            ...paneStyle
-        })
+            ...paneStyle,
+        }),
     };
 }
 

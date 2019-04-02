@@ -2,7 +2,8 @@ import * as PropTypes from "prop-types";
 import * as React from "react";
 import { CustomCSSProperties } from "react-uwp";
 
-import Dock from "react-dock";
+// import Dock from "react-dock";
+import Dock from "./Dock";
 
 
 import "./SplitViewPane.css";
