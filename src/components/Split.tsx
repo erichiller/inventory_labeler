@@ -14,7 +14,8 @@ import * as PropTypes from "prop-types";
 
 // import SplitView, {SplitViewPane} from "react-uwp/SplitView";
 import SplitView from "./uwp/SplitView";
-import SplitViewPane from "./uwp/SplitViewPane";
+import SplitViewPane from "./uwp/UwpDock";
+// import SplitViewPane from "./uwp/SplitViewPane";
 import Toggle from "react-uwp/Toggle";
 import DropDownMenu from "react-uwp/DropDownMenu";
 import { theme } from "../App";

@@ -4,7 +4,7 @@ import * as React from "react";
 
 import AddBlurEvent from "react-uwp/common/AddBlurEvent";
 // import SplitViewPane, { SplitViewPaneProps } from "./SplitViewPane";
-import SplitViewPane from "./UwpDock";
+import SplitViewPane, { SplitViewDock } from "./UwpDock";
 export { SplitViewPane };
 
 export interface DataProps {
@@ -76,10 +76,12 @@ export class SplitView extends React.Component<SplitViewProps, SplitViewState> {
     public context!: { theme: ReactUWP.ThemeType };
 
 
+    public isSplitViewDock(input: SplitViewDock | any): input is SplitViewDock {
+        return (input as SplitViewDock).props.dockContentStyles !== undefined;
+    }
     public isSplitViewPane(input: SplitViewPane | any): input is SplitViewPane {
         return (input as SplitViewPane).props.isVisible !== undefined;
     }
-
 
     public render() {
         const {
@@ -107,10 +109,8 @@ export class SplitView extends React.Component<SplitViewProps, SplitViewState> {
         if (children) {
             React.Children.forEach(children, (child: any, index) => {
                 if (this.isSplitViewPane(child)) {
-                    console.log(child);
-                    console.log(" ... isSplitView ");
                     splitViewPanes.push(React.cloneElement( (child as any ), {
-                        style: { ...styles.pane!.style, ...child.props.style },
+                        dockStyle: { ...styles.pane!.style, ...child.props.style },
                         className: styles.pane!.className,
                         key: index.toString(),
                         isVisible: this.state.expanded,

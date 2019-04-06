@@ -1,14 +1,18 @@
 
 import * as React from "react";
 
+interface foo {
+    foo: string;
+}
+
 // interface IChildPortal extends React.HTMLAttributes<HTMLDivElement> {
 //     id: string;
 //   }
-  
+
 //   export class Modal extends React.Component<IChildPortal , {}> {
 //     el: HTMLElement;
 //     displayElementRoot?: HTMLElement;
-  
+
 //     constructor(props: IChildPortal){
 //       super(props);
 //       this.el = document.createElement('div');
@@ -23,29 +27,29 @@ import * as React from "react";
 //         console.log("error: displayelementroot not found with id of " + this.props.id);
 //       }
 //     }
-  
+
 //     componentDidMount() {
 //       if (this.displayElementRoot !== undefined ) {
 //         this.displayElementRoot.appendChild(this.el);
 //       }
 //     }
-  
+
 //     componentWillUnmount() {
 //       if (this.displayElementRoot !== undefined ) {
 //         this.displayElementRoot.removeChild(this.el);
 //       }
 //     }
-    
+
 //     render() {
 //       return ReactDOM.createPortal(
 //         this.props.children,
 //         this.el,
 //       );
 //     }
-  
+
 //   }
 
-  
+
 // interface IPortal {
 //     destinationId: string,
 //     children?: React.Component<any, any> | React.Component<any, any>[],

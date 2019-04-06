@@ -1,6 +1,6 @@
 import debounce from 'lodash.debounce';
 import PropTypes, { number, string } from 'prop-types';
-import React, { Component, CSSProperties } from 'react';
+import React, { Component, CSSProperties, ReactChildren } from 'react';
 
 import { CustomCSSProperties } from "react-uwp";
 
@@ -65,7 +65,6 @@ interface ICSSProperties extends CSSProperties {
     [index: string]: any;
 }
 
-type DockStyleLocation = "left" | "right" | "bottom" | "top";
 
 
 
@@ -80,19 +79,23 @@ type CSSColor = string;
 type CSSDimension = number | string;
 
 
+type DockStyleLocation = "left" | "right" | "bottom" | "top";
+
 interface IDockStylesPrefixed extends IDockStyles { }
+
+type CSSPropertyPosition = "-moz-initial" | "inherit" | "initial" | "revert" | "unset" | "fixed" | "-webkit-sticky" | "absolute" | "relative" | "static" | "sticky" | undefined;
 
 interface IDockStyles {
     [index: string]: any;
     wrapper: {
-        position: string;
+        position: CSSPropertyPosition;
         width: number;
         height: number;
         top: number;
         left: number;
     };
     dim: {
-        position: string,
+        position: CSSPropertyPosition,
         left: number,
         right: number,
         top: number,
@@ -114,7 +117,7 @@ interface IDockStyles {
     };
 
     dock: {
-        position: string;
+        position: CSSPropertyPosition;
         zIndex: number;
         boxShadow: string;
         background: CSSColor;
@@ -139,9 +142,15 @@ interface IDockStyles {
     };
 
     resizer: {
-        position: "absolute";
+        position: CSSPropertyPosition;
         zIndex: number;
         opacity: number;
+        background: string;
+        backgroundPositionY: string;
+        backgroundRepeat: string;
+        backgroundPositionX: string;
+        left: number;
+        width: number | string;
     };
 
     dimDisappear?: CSSProperties;
@@ -183,8 +192,8 @@ const styles: IDockStylesPrefixed = autoprefixes({
     dock: {
         position: "fixed",
         zIndex: 1,
-        boxShadow: "0 0 4px rgba(0, 0, 0, 0.3)",
-        background: "white",
+        // boxShadow: "0 0 4px rgba(0, 0, 0, 0.3)",
+        // background: "white",
         left: 0,
         top: 0,
         width: "100%",
@@ -208,13 +217,29 @@ const styles: IDockStylesPrefixed = autoprefixes({
     resizer: {
         position: "absolute",
         zIndex: 2,
-        opacity: 0,
-    },
+        // opacity: 0,
+        background: "repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.26), rgba(0, 0, 0, 0.26) .5px, rgba(0, 0, 0, 0.12) 2px, rgba(0, 0, 0, 0.12) 2px)",
+        // backgroundPosition: "0 100%",
+        // // content: '';
+        // // display: block;
+        // /* width: 5px; */
+        // height: "40px;",
+        // left: "-2px;",
+        // width: "4px;",
+    backgroundPositionX: "center",
+    backgroundPositionY: "center",
+    backgroundSize: "4px 40px",
+    backgroundRepeat: "no-repeat",
+            },
+    // left: "-3px",
+    // width: "6px",
 });
 
 function getTransitions(duration: number) {
-    return ["left", "top", "width", "height"]
-        .map((p) => `${p} ${duration / 1000}s ease-out`);
+    // return ["left", "top", "width", "height"]
+    //     .map((p) => `${p} ${duration / 1000}s ease-out`);
+    // disabled in order to use react-uwp instead
+    return [];
 }
 
 function getDockStyles(
@@ -283,9 +308,10 @@ function getDimStyles(
 ) {
     return [
         styles.dim,
-        autoprefix({
-            transition: `opacity ${duration / 1000}s ease-out`,
-        }),
+        // commented out so it uses uwp transition
+        // autoprefix({
+        //     transition: `opacity ${duration / 1000}s ease-out`,
+        // }),
         dimStyle,
         dimMode === "transparent" && styles.dimTransparent,
         !isVisible && styles.dimHidden,
@@ -385,6 +411,7 @@ export default class SplitViewPane extends Component<IDockProps, IDockState> {
         super(props);
         this.state = {
             isControlled: typeof props.size !== "undefined",
+            // isControlled: true,
             size: props.size || props.defaultSize,
             isDimHidden: !props.isVisible,
             fullWidth: typeof (window) !== "undefined" && window.innerWidth ? window.innerWidth : 0,
@@ -396,11 +423,13 @@ export default class SplitViewPane extends Component<IDockProps, IDockState> {
     }
 
     public static defaultProps = {
-        position: "left",
+        position: "right",
         zIndex: 99999999,
         fluid: true,
         defaultSize: 0.3,
-        dimMode: "opaque",
+        // commented out for uwp
+        // dimMode: "opaque",
+        dimMode: "none",
         duration: 200,
         isVisible: true,
     };
@@ -470,42 +499,6 @@ export default class SplitViewPane extends Component<IDockProps, IDockState> {
         }
     }
 
-    public render() {
-        const { children, zIndex, dimMode, position, isVisible, ...attributes } = this.props;
-        const { isResizing, size, isDimHidden } = this.state;
-
-        console.log(attributes);
-
-        const dimStyles = Object.assign({}, ...getDimStyles(this.props, this.state));
-        const dockStyles = Object.assign({}, ...getDockStyles(this.props, this.state));
-        const resizerStyles = Object.assign({}, ...getResizerStyles(position));
-
-        return (
-            <div style={Object.assign({}, styles.wrapper, { zIndex })} 
-              {...attributes}
-              ref={(rootElm) => this.rootElm = rootElm!}
-            >
-                {dimMode !== "none" && !isDimHidden &&
-                    <div style={dimStyles} onClick={this.handleDimClick} />
-                }
-                <div style={dockStyles}>
-                    <div style={resizerStyles}
-                        onMouseDown={this.handleMouseDown} />
-                    <div style={styles.dockContent}>
-                        {typeof children === "function" ?
-                            children({
-                                position,
-                                isResizing,
-                                size,
-                                isVisible,
-                            }) :
-                            children
-                        }
-                    </div>
-                </div>
-            </div>
-        );
-    }
 
     public handleDimClick = () => {
         if (this.props.dimMode === "opaque") {
@@ -584,11 +577,159 @@ export default class SplitViewPane extends Component<IDockProps, IDockState> {
                 size = fluid && fullHeight ? (fullHeight - y) / fullHeight : (fullHeight - y);
                 break;
         }
-
         this.props.onSizeChange && this.props.onSizeChange(size ? size : 0);
 
         if (!isControlled) {
             this.setState({ size: size ? size : 0 });
         }
     }
+
+    public render() {
+        const { children, zIndex, dimMode, position, isVisible, fluid, defaultSize, dockStyle, className, duration, ...attributes } = this.props;
+        const { isResizing, size, isDimHidden } = this.state;
+
+        const dimStyles = Object.assign({}, ...getDimStyles(this.props, this.state));
+        const dockStylesAgg = Object.assign({}, ...getDockStyles(this.props, this.state));
+        const resizerStyles = Object.assign({}, ...getResizerStyles(position));
+        const dockContentStyles = styles.dockContent;
+
+        const { theme } = this.context;
+        if (theme.prefixStyle === undefined) {
+            theme.prefixStyle = (style?: CustomCSSProperties) => style!;
+          }
+
+        return (
+            // <div style={Object.assign({}, styles.wrapper, { zIndex })} 
+            <div 
+            id="dock_root"
+              style={theme.prefixStyle( Object.assign({}, styles.wrapper, { zIndex }) )}
+              {...attributes}
+              ref={(rootElm) => this.rootElm = rootElm!}
+            >
+                {dimMode !== "none" && !isDimHidden &&
+                    <div id="dimStyles" style={dimStyles} onClick={this.handleDimClick} />
+                }
+                <SplitViewDock
+                    className={className}
+                    style={dockStylesAgg}
+                    handleMouseDown={this.handleMouseDown}
+                    dockContentStyles={dockContentStyles}
+                    resizerStyles={resizerStyles}
+                >
+                {children}
+                </SplitViewDock>
+            </div>
+        );
+    }
 }
+
+
+interface DockProps {
+    style: CSSProperties;
+    id?: string;
+    handleMouseDown: () => void;
+    resizerStyles: CSSProperties;
+    dockContentStyles: CSSProperties;
+    children?: React.ReactNode
+    position?: DockStyleLocation;
+    size?: number;
+    isVisible?: boolean;
+    isResizing?: boolean;
+    className?: string;
+}
+
+export class SplitViewDock extends React.Component<DockProps, {}> {
+    // props: DockProps;
+
+    public static defaultProps: DockProps = {
+        style: {},
+        id: "dock",
+        resizerStyles: {},
+        handleMouseDown: () => {},
+        dockContentStyles: {},
+        isResizing: false,
+        isVisible: false,
+    }
+    
+    constructor (props: DockProps) {
+        super(props)
+
+        // props.isResizing = false;
+        // props.isVisible = false;
+}
+
+    render(){
+        const { children, position, isResizing, size, isVisible, style, className, ...attributes } = this.props;
+        return (
+        <div id="dock"
+        style={style}
+        className={className}>
+            <div id="resizer"
+            style={this.props.resizerStyles}
+                onMouseDown={this.props.handleMouseDown} />
+            <div id="dock_content" style={this.props.dockContentStyles}>
+                {typeof children === "function" ?
+                    children({
+                        position,
+                        isResizing,
+                        size,
+                        isVisible,
+                    }) :
+                    children
+                }
+            </div>
+    </div>
+        )
+    }
+}
+
+
+
+
+
+// class Dock extends React.Component {
+//     props: {
+//         dockContentStyle: CSSProperties;
+//         style: CSSProperties;
+//         id?: string;
+//         handleMouseDown: () => {};
+//     }
+//     constructor(props: IDockProps) {
+//         super(props)
+//         this.props = {
+//             style: props.style ? props.style : {
+//                 dim: {},
+//                 dimAppear: {},
+//                 dimDisappear: {},
+//                 dimHidden: {},
+//                 dimTransparent: {}
+//             },
+
+//         }
+//         id: "dock",
+//         resizerStyles: {},
+//         handleMouseDown: () => ({}),
+//         dockContentStyles: {}
+//     }
+
+//     render(){
+//         return (
+//         <div id="dock" style={this.props.style} >
+//             <div id="resizer" 
+//             style={this.props.resizerStyles}
+//                 onMouseDown={this.props.handleMouseDown} />
+//             <div id="dock_content" style={this.props.dockContentStyle}>
+//                 {typeof children === "function" ?
+//                     children({
+//                         position,
+//                         isResizing,
+//                         size,
+//                         isVisible,
+//                     }) :
+//                     children
+//                 }
+//             </div>
+//     </div>
+//         )
+//     }
+// }

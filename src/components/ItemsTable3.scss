@@ -1,0 +1,141 @@
+.react-bootstrap-table {
+  $row-height: 42px;
+  table {
+    cursor: pointer;
+    .selectedRow {
+      background-color: rgba(0, 0, 0, 0.075);
+    }
+    tr {
+      font-weight: 300;
+      height: $row-height;
+      td:last-child , th:last-child {
+        padding-right: 10px;
+      }
+    }
+    tr th {
+      font-weight: 400;
+    }
+    tbody {
+      tr {
+        &.expanding-row {
+          td {
+            div {
+              padding: 2px 4px;
+            }
+            margin: 0;
+            padding: 0;
+          }
+          margin: 0;
+          padding: 0;
+        }
+        input[type="text"] {
+          font-size: 0.7em;
+          padding: 2px 4px;
+          // height: 2.0em;
+          line-height: initial;
+          background-color: red;
+          height: 100%;
+          border: 0;
+        }
+        font-size: 13px;
+        // text-align: center;
+        vertical-align: middle;
+        
+      }
+      td {
+        vertical-align: middle;
+      }
+    }
+
+    th:first-child,
+    td:first-child {
+      user-select: none;
+      position: relative;
+    }
+
+    tr:hover input[type="checkbox"]:before,
+    tr input[type="checkbox"]:checked:before,
+    tr:hover input[type="checkbox"]:after,
+    tr input[type="checkbox"]:checked:after {
+      visibility: visible;
+      display: block;
+    }
+
+    th:first-child {
+      input[type="checkbox"]:before {
+        top: ( $row-height - 22 );
+      }
+      input[type="checkbox"]:after {
+        top: ( $row-height - 18 );
+      }
+    }
+
+    /*
+     * Create a custom checkbox 
+     * Hide the original
+     */
+    input[type="checkbox"] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+      visibility: hidden;
+
+      /** Circle **/
+      &:before {
+        $height: 19px;
+        width: 19px;
+        height: $height;
+        content: "";
+        position: absolute;
+        border: 2px solid rgb(200, 200, 200);
+        // background-color: gray;
+        display: block;
+        left: 11px;
+        top: ( ($row-height - $height/2 ) / 2);
+        border-radius: 15px;
+      }
+      /* Style the checkmark/indicator */
+      &:after {
+        $height: 9px;
+        content: "";
+        position: absolute;
+        display: none;
+        left: 19px;
+        top: ( ($row-height - $height/2 ) / 2);
+        opacity: 1;
+        width: 4px;
+        height: $height;
+        border: solid rgb(200, 200, 200);
+        border-width: 0 2px 2px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+      }
+
+      &:checked:before {
+        background-color: rgb(0, 120, 212);
+        border: 2px solid white;
+      }
+      /* Show the checkmark when checked */
+      &:checked:after {
+        background-color: transparent;
+        border-color: white;
+      }
+    }
+  }
+
+  // .form-check-input[type=checkbox]+label, label.btn input[type=checkbox]+label {
+  //   position: relative;
+  //   padding-left: 35px;
+  //   cursor: pointer;
+  //   display: inline-block;
+  //   height: 1.5625rem;
+  //   line-height: 1.5625rem;
+  //   -webkit-user-select: none;
+  //   -moz-user-select: none;
+  //   -ms-user-select: none;
+  //   user-select: none;
+}

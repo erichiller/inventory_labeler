@@ -35,7 +35,7 @@ class App extends React.Component {
       margin: "10px 0",
       height: "40px",
       verticalAlign: "bottom",
-    display: "table-cell",
+      display: "table-cell",
       // height: 400,
     };
     const tabStyle: React.CSSProperties = {
@@ -47,23 +47,28 @@ class App extends React.Component {
         theme={theme}
       >
         <TabGroup>
-      <div style={topBarStyle}>
-          <img id="HillerIcon" src={HillerIcon} style={{verticalAlign: "bottom", marginTop: "5px"}} alt="Logo" />
-          <TabBar
-            tabStyle={tabStyle}
-            // style={baseStyle}
-            tabTitleStyle={{ marginRight: 15 }} />
-          <GlobalSearch />
-        </div>
+          <div style={topBarStyle}>
+            <img id="HillerIcon" src={HillerIcon} style={{ verticalAlign: "bottom", marginTop: "5px" }} alt="Logo" />
+            <TabBar
+              tabStyle={tabStyle}
+              // style={baseStyle}
+              tabTitleStyle={{ marginRight: 15 }} />
+            <GlobalSearch />
+          </div>
 
 
-          <TabView/>
-          <Tab title="Items" style={{margin: "5px"}} icon={<FontAwesomeIcon icon={faBox} />}>
-              <Split />
+          <TabView />
+          <Tab title="Items" style={{ padding: "5px" }} icon={<FontAwesomeIcon icon={faBox} />}>
+          
+          <div className="ms-Fabric" dir="ltr">
+              <div style={{ background: theme.acrylicTexture80!.background! }}>
+                <ItemsTable />
+              </div>
+            </div>
           </Tab>
           <Tab title="Orders" icon={<FontAwesomeIcon icon={faCubes} />}>
-            NUIFace
-            <ItemsTable />
+          <Split />
+
           </Tab>
           <Tab title="Labels" icon={<FontAwesomeIcon icon={faTags} />}>
             Game
@@ -72,7 +77,7 @@ class App extends React.Component {
           <Tab title="Stats" icon={<FontAwesomeIcon icon={faChartPie} />}>
             Color
           </Tab>
-          
+
         </TabGroup>
         {/* <GlobalSearch /> */}
       </UWPThemeProvider>
